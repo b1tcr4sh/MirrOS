@@ -9,4 +9,7 @@
     <PackageReference Include="Avalonia.Desktop" Version="0.10.3" />
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.3" />
    </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UIElements\" />
+  </ItemGroup>
 </Project>

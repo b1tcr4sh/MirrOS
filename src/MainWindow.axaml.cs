@@ -4,12 +4,13 @@ using Avalonia.Markup.Xaml;
 using System.Reactive.Subjects;
 using System;
 using MirrOS.Models;
+using Avalonia.Threading;
 
 namespace MirrOS
 {
     public partial class MainWindow : Window
     {
-        public string currentTime = DateTime.Now.ToString("hh:mm tt");
+        private string currentTime = DateTime.Now.ToString("hh:mm tt");
         public MainWindow()
         {
             InitializeComponent();
@@ -17,23 +18,24 @@ namespace MirrOS
 #if DEBUG
             this.AttachDevTools();
 #endif
-            
+            DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Background);
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.IsEnabled = true;
+            timer.Tick += (s, e) =>
+            {
+                UpdateTime();
+            };
         }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
+            
         }
-        private void UpdateTime()
+        public void UpdateTime()
         {
-
-            if (currentTime != DateTime.Now.ToString("hh:mm tt"))
-            {
-                currentTime = DateTime.Now.ToString("hh:mm tt");
-
-                var context = this.DataContext as MainWindowModel;
-                context.Time = DateTime.Now.ToString("hh:mm tt");
-            }
+            var context = this.DataContext as MainWindowModel;
+            context.Time = DateTime.Now.ToString("hh:mm tt");
         }
     }
 }
