@@ -4,6 +4,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="MirrOS.MainWindow"
-        Title="MirrOS">
-    Welcome to Avalonia!
+        Title="MirrOS"
+		MinWidth="{Binding Width}"
+		MinHeight="{Binding Height}"
+		MaxWidth="{Binding Width}"
+		MaxHeight="{Binding Height}">
+	<Border Padding="100">
+	    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" >
+		    <TextBlock FontSize="50" Text="{Binding Time}"></TextBlock> 
+	    </StackPanel>
+	</Border>
 </Window>
