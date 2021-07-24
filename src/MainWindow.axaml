@@ -4,14 +4,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="MirrOS.MainWindow"
-        Title="MirrOS"
-		MinWidth="{Binding Width}"
-		MinHeight="{Binding Height}"
-		MaxWidth="{Binding Width}"
-		MaxHeight="{Binding Height}">
-	<Border Padding="100">
-	    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" >
-		    <TextBlock FontSize="50" Text="{Binding Time}"></TextBlock> 
-	    </StackPanel>
+		Height="{Binding Height}"
+		Width="{Binding Width}">
+	<Border Padding="60">
+		<StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" >
+			<TextBlock HorizontalAlignment="Center" FontSize="40" Text="{Binding Time}"/>
+			<Line StartPoint="10,0" EndPoint="250,0" Stroke="Black" StrokeThickness="2"/>
+			<TextBlock HorizontalAlignment="Center" FontSize="30" Text="{Binding Date}"/>
+		</StackPanel>
 	</Border>
 </Window>

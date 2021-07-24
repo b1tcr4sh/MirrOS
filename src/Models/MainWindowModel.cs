@@ -12,6 +12,7 @@ namespace MirrOS.Models
     {
 
         private string _time;
+        private string _date;
 
         public string Time
         {
@@ -19,6 +20,15 @@ namespace MirrOS.Models
             set
             {
                 _time = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Date
+        {
+            get => _date;
+            set
+            {
+                _date = value;
                 OnPropertyChanged();
             }
         }

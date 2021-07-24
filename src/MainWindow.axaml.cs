@@ -36,6 +36,7 @@ namespace MirrOS
         {
             var context = this.DataContext as MainWindowModel;
             context.Time = DateTime.Now.ToString("hh:mm tt");
+            context.Date = DateTime.Now.ToString("d");
         }
     }
 }
