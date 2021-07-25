@@ -3,21 +3,28 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using System.Reactive.Subjects;
 using System;
+using System.Threading.Tasks;
 using MirrOS.Models;
 using Avalonia.Threading;
+using MirrOS.Config;
 
 namespace MirrOS
 {
     public partial class MainWindow : Window
-    {
-        private string currentTime = DateTime.Now.ToString("hh:mm tt");
+    {   
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new MainWindowModel() { Time = currentTime };
+            this.DataContext = new MainWindowModel() 
+            { 
+                Time = DateTime.Now.ToString("hh:mm tt"), 
+                Date = DateTime.Now.ToString("d") 
+            };
 #if DEBUG
             this.AttachDevTools();
 #endif
+            initializeConfigFile();
+
             DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Background);
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.IsEnabled = true;
@@ -37,6 +44,12 @@ namespace MirrOS
             var context = this.DataContext as MainWindowModel;
             context.Time = DateTime.Now.ToString("hh:mm tt");
             context.Date = DateTime.Now.ToString("d");
+        }
+        private async Task initializeConfigFile()
+        {
+            ConfigFile defaultConfig = new ConfigFile(@"../config/config.json");
+            await defaultConfig.initialize();
+            Console.WriteLine(defaultConfig.readConfig());
         }
     }
 }
