@@ -23,7 +23,7 @@ namespace MirrOS.Config
             path = filePath;
         }
 
-        public async Task initialize()
+        public void initialize()
         {
             ConfigFileDataModel model = new ConfigFileDataModel();
 
@@ -35,9 +35,9 @@ namespace MirrOS.Config
                 SCREEN_ORIENTATION = orientation.horizontal
             });
 
-            using FileStream createStream = File.Create(path);
-            await JsonSerializer.SerializeAsync(createStream, model);
-            await createStream.DisposeAsync();
+            string jsonString = JsonSerializer.Serialize(data);
+            File.Create(path);
+            File.WriteAllText(path, jsonString);
         }
         public ConfigFileDataModel readConfig()
         {

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using MirrOS.Models;
 using Avalonia.Threading;
 using MirrOS.Config;
+using System.IO;
 
 namespace MirrOS
 {
@@ -45,10 +46,10 @@ namespace MirrOS
             context.Time = DateTime.Now.ToString("hh:mm tt");
             context.Date = DateTime.Now.ToString("d");
         }
-        private async Task initializeConfigFile()
+        private void initializeConfigFile()
         {
             ConfigFile defaultConfig = new ConfigFile(@"../config/config.json");
-            await defaultConfig.initialize();
+            defaultConfig.initialize();
             Console.WriteLine(defaultConfig.readConfig());
         }
     }
