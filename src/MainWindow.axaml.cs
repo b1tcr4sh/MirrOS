@@ -46,11 +46,11 @@ namespace MirrOS
             context.Time = DateTime.Now.ToString("hh:mm tt");
             context.Date = DateTime.Now.ToString("d");
         }
-        private void initializeConfigFile()
+        private async Task initializeConfigFile()
         {
             ConfigFile defaultConfig = new ConfigFile(@"../config/config.json");
-            defaultConfig.initialize();
-            Console.WriteLine(defaultConfig.readConfig());
+            await defaultConfig.initializeAsync();
+            Console.WriteLine(await defaultConfig.readConfigAsync());
         }
     }
 }

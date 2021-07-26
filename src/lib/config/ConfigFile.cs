@@ -23,26 +23,28 @@ namespace MirrOS.Config
             path = filePath;
         }
 
-        public void initialize()
+        public async Task initializeAsync()
         {
-            ConfigFileDataModel model = new ConfigFileDataModel();
-
-            List<ConfigFileDataModel> data = new List<ConfigFileDataModel>();
-            data.Add(new ConfigFileDataModel()
+            ConfigFileDataModel model = new ConfigFileDataModel()
             {
                 GESTURE_CONTROLS_ENABLED = false,
-                LOCATION = "dallas",
+                LOCATION = "Dallas",
                 SCREEN_ORIENTATION = orientation.horizontal
-            });
+            };
 
-            string jsonString = JsonSerializer.Serialize(data);
-            File.Create(path);
-            File.WriteAllText(path, jsonString);
+            string current = File.ReadAllText(path);
+            if (current == null)
+            {
+                // Create and serialize ConfigFileDataModel to path
+                using FileStream createStream = File.Create(path);
+                await JsonSerializer.SerializeAsync(createStream, model);
+                await createStream.DisposeAsync();
+            }   
         }
-        public ConfigFileDataModel readConfig()
+        public async Task<ConfigFileDataModel> readConfigAsync()
         {
-            string jsonString = File.ReadAllText(path);
-            return JsonSerializer.Deserialize<ConfigFileDataModel>(jsonString);
+            using FileStream openStream = File.OpenRead(path);
+            return await JsonSerializer.DeserializeAsync<ConfigFileDataModel>(openStream);
         }
     }
 }

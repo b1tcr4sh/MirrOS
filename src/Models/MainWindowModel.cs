@@ -19,8 +19,11 @@ namespace MirrOS.Models
             get => _time;
             set
             {
-                _time = value;
-                OnPropertyChanged();
+                if (value != _time)
+                {
+                    _time = value;
+                    OnPropertyChanged();
+                }
             }
         }
         public string Date
@@ -28,8 +31,11 @@ namespace MirrOS.Models
             get => _date;
             set
             {
-                _date = value;
-                OnPropertyChanged();
+                if (value != _date)
+                {
+                    _date = value;
+                    OnPropertyChanged();
+                }      
             }
         }
 
