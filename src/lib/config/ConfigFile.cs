@@ -16,6 +16,18 @@ namespace MirrOS.Config
             horizontal,
             vertical
         }
+        public enum units
+        {
+            standard,
+            metric,
+            imperial
+        }
+        public enum windowState
+        {
+            fullscreen,
+            maximized,
+            minimized
+        }
         public string path;
 
         public ConfigFile (string filePath)
@@ -28,8 +40,16 @@ namespace MirrOS.Config
             ConfigFileDataModel model = new ConfigFileDataModel()
             {
                 GESTURE_CONTROLS_ENABLED = false,
-                LOCATION = "Dallas",
-                SCREEN_ORIENTATION = orientation.horizontal
+                SCREEN_ORIENTATION = orientation.horizontal,
+                WINDOWSTATE = windowState.fullscreen,
+                TWELVEHOURTIME = true,
+                OPENWEATHERAPI_PARAMS =
+                {
+                    OPENWEATHERAPI_KEY = "Your API Key Here (Visit docs for instructions)",
+                    LOCATION = "Your City Here (Visit docs for instructions)",
+                    UNITS = units.standard
+                }
+                
             };
 
             string current = File.ReadAllText(path);

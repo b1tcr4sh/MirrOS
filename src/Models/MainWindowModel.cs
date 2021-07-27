@@ -13,6 +13,9 @@ namespace MirrOS.Models
 
         private string _time;
         private string _date;
+        private bool _displayHorizontal;
+        private int _height;
+        private int _width;
 
         public string Time
         {
@@ -39,11 +42,54 @@ namespace MirrOS.Models
             }
         }
 
+
+        public int Width 
+        { 
+            get => _width;
+            private set
+            {
+                if (_width != value) _width = value;
+                OnPropertyChanged();
+            } 
+        }
+        public int Height { 
+            get => _height; 
+            private set
+            {
+                if (_height != value) _height = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool DisplayHorizontal 
+        { 
+            get => _displayHorizontal; 
+            set
+            {
+                ChangeDisplayOrientation(value);    
+            } 
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ChangeDisplayOrientation(bool isHorizontal)
+        {
+            if (isHorizontal)
+            {
+                Width = 1920;
+                Height = 1080;
+                _displayHorizontal = true;
+            }
+            else
+            {
+                Width = 1080;
+                Height = 1920;
+                _displayHorizontal = false;
+            }
         }
     }
 }

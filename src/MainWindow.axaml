@@ -4,8 +4,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="MirrOS.MainWindow"
-		Height="{Binding Height}"
-		Width="{Binding Width}">
+		WindowState="FullScreen">
+	
+	<!--Screen Orientation Bindings (To go in Window)
+		MaxHeight="{Binding Height}"
+		MaxWidth="{Binding Width}"
+		MinHeight="{Binding Height}"
+		MinWidth="{Binding Width}"-->
+	
 	<Border Padding="60">
 		<StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" >
 			<TextBlock HorizontalAlignment="Center" FontSize="40" Text="{Binding Time}"/>

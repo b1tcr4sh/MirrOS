@@ -24,15 +24,8 @@ namespace MirrOS
 #if DEBUG
             this.AttachDevTools();
 #endif
-            initializeConfigFile();
-
-            DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Background);
-            timer.Interval = TimeSpan.FromSeconds(1);
-            timer.IsEnabled = true;
-            timer.Tick += (s, e) =>
-            {
-                UpdateTime();
-            };
+            InitializeConfigFile();
+            UpdateTime();
         }
 
         private void InitializeComponent()
@@ -42,15 +35,36 @@ namespace MirrOS
         }
         public void UpdateTime()
         {
-            var context = this.DataContext as MainWindowModel;
-            context.Time = DateTime.Now.ToString("hh:mm tt");
-            context.Date = DateTime.Now.ToString("d");
+            DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Background);
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.IsEnabled = true;
+            timer.Tick += (s, e) =>
+            {
+                var context = this.DataContext as MainWindowModel;
+                context.Time = DateTime.Now.ToString("hh:mm tt");
+                context.Date = DateTime.Now.ToString("d");
+            };
         }
-        private async Task initializeConfigFile()
+        private async Task InitializeConfigFile()
         {
             ConfigFile defaultConfig = new ConfigFile(@"../config/config.json");
             await defaultConfig.initializeAsync();
             Console.WriteLine(await defaultConfig.readConfigAsync());
+            InitializeWindowSetttings(defaultConfig);
+        }
+        private async Task InitializeWindowSetttings(ConfigFile defaultConfig)
+        {
+            var context = this.DataContext as MainWindowModel;
+            var config = await defaultConfig.readConfigAsync();
+
+            if (config.SCREEN_ORIENTATION == ConfigFile.orientation.horizontal)
+            {
+                context.DisplayHorizontal = true;
+            }
+            else
+            {
+                context.DisplayHorizontal = false;
+            }
         }
     }
 }
