@@ -9,6 +9,8 @@ namespace MirrOS.UIElements.Weather
     class WeatherResponseModel
     {
         public dynamic coord { get; set; }
-        public dynamic Weather { get; set; }
+        public dynamic[] weather { get; set; }
+        public dynamic main { get; set; }
+        public int cod { get; set; }
     }
 }

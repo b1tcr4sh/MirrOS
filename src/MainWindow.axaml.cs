@@ -4,10 +4,10 @@ using Avalonia.Markup.Xaml;
 using System.Reactive.Subjects;
 using System;
 using System.Threading.Tasks;
-using MirrOS.Models;
 using Avalonia.Threading;
 using MirrOS.Config;
-using System.IO;
+using MirrOS.Models;
+using MirrOS.UIElements.Weather;
 
 namespace MirrOS
 {
@@ -26,6 +26,7 @@ namespace MirrOS
 #endif
             InitializeConfigFile();
             UpdateTime();
+            var weatherElement = new WeatherElement();
         }
 
         private void InitializeComponent()
