@@ -52,30 +52,34 @@ namespace MirrOS.UIElements.Weather
             units = configObject.UNITS;
         }
 
-        async Task UpdateWeather()
+        public async Task UpdateWeather()
         {
             var response = await RequestWeatherData();
-
-            Console.WriteLine(response);
 
             ProcessResponse(response);
         }
 
         async Task<WeatherResponseModel> RequestWeatherData()
         {
+            Console.WriteLine("Constructing HTTP Client...");
+
             HttpClient client = new HttpClient();
 
             client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"));
             client.DefaultRequestHeaders.Add("User-Agent", "MirrOS Weather Data Collector");
 
             // string response = await client.GetStringAsync($@"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={apiKey}%units={units}");
-
+            
+            
+            Console.WriteLine("Beginning HTTP Request");
             var responseTask = client.GetStreamAsync($@"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={apiKey}%units={units}");
+            Console.WriteLine("Request resolved!  Deserializing...");
             var deserializedResponse = await JsonSerializer.DeserializeAsync<WeatherResponseModel>(await responseTask) ?? new WeatherResponseModel
             {
                 cod = -1,                
             };
+
+            Console.WriteLine(deserializedResponse);
 
             return deserializedResponse;
         }
