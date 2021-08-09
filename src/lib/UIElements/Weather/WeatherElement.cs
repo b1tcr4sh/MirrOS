@@ -65,15 +65,11 @@ namespace MirrOS.UIElements.Weather
 
         async Task<WeatherResponseModel> RequestWeatherData()
         {
-            Console.WriteLine("Constructing HTTP Client...");
-
             HttpClient client = new HttpClient();
             string url = $"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={apiKey}&units={units}";
             Console.WriteLine(url);
 
-
             var responseTask = client.GetStreamAsync(url);
-            Console.WriteLine(await responseTask);
 
             var deserializedResponse = await JsonSerializer.DeserializeAsync<WeatherResponseModel>(await responseTask) ?? new WeatherResponseModel
             {
@@ -114,12 +110,12 @@ namespace MirrOS.UIElements.Weather
             Console.WriteLine(errorMessage);
 #endif
 
-            _temp = response.main.temp;
-            _feelsLike = response.main.feels_like;
-            _pressure = response.main.pressure;
-            _humidity = response.main.humidity;
-            _tempMin = response.main.temp_min;
-            _tempMax = response.main.temp_max;
+            _temp = response?.main.temp;
+            _feelsLike = response?.main.feels_like;
+            _pressure = response?.main.pressure;
+            _humidity = response?.main.humidity;
+            _tempMin = response?.main.temp_min;
+            _tempMax = response?.main.temp_max;
             _main = response.weather[0].main;
             _desc = response.weather[0].description;
         }
