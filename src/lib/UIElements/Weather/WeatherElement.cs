@@ -31,8 +31,7 @@ namespace MirrOS.UIElements.Weather
 
         public WeatherElement()
         {
-            PullParamsFromConfig();
-            UpdateWeather();
+            Initialize();
 
             DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Background);
 
@@ -42,6 +41,11 @@ namespace MirrOS.UIElements.Weather
             {
                 UpdateWeather();
             };
+        }
+        async Task Initialize()
+        {
+            await PullParamsFromConfig();
+            await UpdateWeather();
         }
         async Task PullParamsFromConfig()
         {
@@ -64,31 +68,29 @@ namespace MirrOS.UIElements.Weather
             Console.WriteLine("Constructing HTTP Client...");
 
             HttpClient client = new HttpClient();
+            string url = $"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={apiKey}&units={units}";
+            Console.WriteLine(url);
 
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Add("User-Agent", "MirrOS Weather Data Collector");
 
-            // string response = await client.GetStringAsync($@"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={apiKey}%units={units}");
-            
-            
-            Console.WriteLine("Beginning HTTP Request");
-            var responseTask = client.GetStreamAsync($@"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={apiKey}%units={units}");
-            Console.WriteLine("Request resolved!  Deserializing...");
+            var responseTask = client.GetStreamAsync(url);
+            Console.WriteLine(await responseTask);
+
             var deserializedResponse = await JsonSerializer.DeserializeAsync<WeatherResponseModel>(await responseTask) ?? new WeatherResponseModel
             {
                 cod = -1,                
-            };
+            }; 
 
-            Console.WriteLine(deserializedResponse);
-
-            return deserializedResponse;
+            return deserializedResponse; 
         }
         void ProcessResponse(WeatherResponseModel response)
         {
-            string errorMessage;
+            string errorMessage = String.Empty;
 
             switch (response.cod)
             {
+                case 200:
+                    errorMessage = "200 Okay, request resolved successfully";
+                    break;
                 case -1:
                     errorMessage = "An error occurred: Unable to resolve response from API host.";
                     break;
@@ -108,6 +110,9 @@ namespace MirrOS.UIElements.Weather
                     errorMessage = "An external server error occurred, please try again later";
                     break;
             }
+#if DEBUG
+            Console.WriteLine(errorMessage);
+#endif
 
             _temp = response.main.temp;
             _feelsLike = response.main.feels_like;

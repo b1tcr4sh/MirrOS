@@ -43,13 +43,9 @@ namespace MirrOS.Config
                 SCREEN_ORIENTATION = orientation.horizontal,
                 WINDOWSTATE = windowState.fullscreen,
                 TWELVEHOURTIME = true,
-                OPENWEATHERAPI_PARAMS =
-                {
-                    OPENWEATHERAPI_KEY = "Your API Key Here (Visit docs for instructions)",
-                    LOCATION = "Your City Here (Visit docs for instructions)",
-                    UNITS = units.standard
-                }
-                
+                OPENWEATHERAPI_KEY = "Your API Key Here (Visit docs for instructions)",
+                LOCATION = "Your City Here (Visit docs for instructions)",
+                UNITS = units.standard
             };
 
             string current = File.ReadAllText(path);
