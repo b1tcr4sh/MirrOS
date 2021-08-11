@@ -10,8 +10,6 @@ namespace MirrOS.Config
     class ConfigFileDataModel
     {
         public bool GESTURE_CONTROLS_ENABLED { get; set; }
-        public ConfigFile.orientation SCREEN_ORIENTATION { get; set; }
-        public ConfigFile.windowState WINDOWSTATE { get; set; }
         public bool TWELVEHOURTIME { get; set; }
         public string LOCATION { get; set; }
         public string OPENWEATHERAPI_KEY { get; set; }

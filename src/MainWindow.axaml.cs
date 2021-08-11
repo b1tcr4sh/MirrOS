@@ -25,11 +25,7 @@ namespace MirrOS
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-            this.DataContext = new MainWindowModel()
-            {
-                Time = DateTime.Now.ToString("hh:mm tt"),
-                Date = DateTime.Now.ToString("d"),
-            };
+            this.DataContext = new MainWindowModel();
         }
         
     }

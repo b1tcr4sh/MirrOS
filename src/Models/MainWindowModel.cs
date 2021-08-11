@@ -13,12 +13,11 @@ namespace MirrOS.Models
 {
     class MainWindowModel : INotifyPropertyChanged
     {
+        private string clockLayout;
 
         private string _time;
         private string _date;
-        private bool _displayHorizontal;
-        private int _height;
-        private int _width;
+        private bool _twelveHourTime;
 
         public string Time
         {
@@ -44,32 +43,14 @@ namespace MirrOS.Models
                 }      
             }
         }
-
-
-        public int Width 
-        { 
-            get => _width;
-            private set
-            {
-                if (_width != value) _width = value;
-                OnPropertyChanged();
-            } 
-        }
-        public int Height { 
-            get => _height; 
-            private set
-            {
-                if (_height != value) _height = value;
-                OnPropertyChanged();
-            }
-        }
-        public bool DisplayHorizontal 
-        { 
-            get => _displayHorizontal; 
+        public bool TwelveHourTime
+        {
+            get => _twelveHourTime;
             set
             {
-                ChangeDisplayOrientation(value);    
-            } 
+                if (value != _twelveHourTime) _twelveHourTime = value;
+                OnPropertyChanged();
+            }
         }
 
         public MainWindowModel()
@@ -86,21 +67,6 @@ namespace MirrOS.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void ChangeDisplayOrientation(bool isHorizontal)
-        {
-            if (isHorizontal)
-            {
-                Width = 1920;
-                Height = 1080;
-                _displayHorizontal = true;
-            }
-            else
-            {
-                Width = 1080;
-                Height = 1920;
-                _displayHorizontal = false;
-            }
-        }
         public void UpdateTime()
         {
             DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Background);
@@ -108,7 +74,7 @@ namespace MirrOS.Models
             timer.IsEnabled = true;
             timer.Tick += (s, e) =>
             {
-                Time = DateTime.Now.ToString("hh:mm tt");
+                Time = DateTime.Now.ToString(clockLayout);
                 Date = DateTime.Now.ToString("d");
             };
         }
@@ -116,19 +82,21 @@ namespace MirrOS.Models
         {
             ConfigFile defaultConfig = new ConfigFile(@"../config/config.json");
             await defaultConfig.initializeAsync();
-            InitializeWindowSetttings(defaultConfig);
-        }
-        private async Task InitializeWindowSetttings(ConfigFile defaultConfig)
-        {
-            var config = await defaultConfig.readConfigAsync();
+            ConfigFileDataModel config = await defaultConfig.readConfigAsync();
 
-            if (config.SCREEN_ORIENTATION == ConfigFile.orientation.horizontal)
+            InitializeClock(config);
+        }
+        private void InitializeClock(ConfigFileDataModel config)
+        {
+            TwelveHourTime = config.TWELVEHOURTIME;
+
+            if (TwelveHourTime)
             {
-                DisplayHorizontal = true;
+                clockLayout = "hh:mm tt";
             }
             else
             {
-                DisplayHorizontal = false;
+                clockLayout = "HH:mm tt";
             }
         }
     }
