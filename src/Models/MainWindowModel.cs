@@ -72,6 +72,13 @@ namespace MirrOS.Models
             } 
         }
 
+        public MainWindowModel()
+        {
+            InitializeConfigFile();
+            UpdateTime();
+            var weatherElement = new WeatherElement();
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -92,6 +99,36 @@ namespace MirrOS.Models
                 Width = 1080;
                 Height = 1920;
                 _displayHorizontal = false;
+            }
+        }
+        public void UpdateTime()
+        {
+            DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Background);
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.IsEnabled = true;
+            timer.Tick += (s, e) =>
+            {
+                Time = DateTime.Now.ToString("hh:mm tt");
+                Date = DateTime.Now.ToString("d");
+            };
+        }
+        private async Task InitializeConfigFile()
+        {
+            ConfigFile defaultConfig = new ConfigFile(@"../config/config.json");
+            await defaultConfig.initializeAsync();
+            InitializeWindowSetttings(defaultConfig);
+        }
+        private async Task InitializeWindowSetttings(ConfigFile defaultConfig)
+        {
+            var config = await defaultConfig.readConfigAsync();
+
+            if (config.SCREEN_ORIENTATION == ConfigFile.orientation.horizontal)
+            {
+                DisplayHorizontal = true;
+            }
+            else
+            {
+                DisplayHorizontal = false;
             }
         }
     }
