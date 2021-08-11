@@ -12,19 +12,16 @@ using MirrOS.UIElements.Weather;
 namespace MirrOS
 {
     public partial class MainWindow : Window
-    {   
+    {
+        bool _displayHorizontal;
         public MainWindow()
         {
+            InitializeConfigFile();
             InitializeComponent();
-            this.DataContext = new MainWindowModel() 
-            { 
-                Time = DateTime.Now.ToString("hh:mm tt"), 
-                Date = DateTime.Now.ToString("d") 
-            };
+            
 #if DEBUG
             this.AttachDevTools();
 #endif
-            InitializeConfigFile();
             UpdateTime();
             var weatherElement = new WeatherElement();
         }
@@ -32,7 +29,12 @@ namespace MirrOS
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-            
+            this.DataContext = new MainWindowModel()
+            {
+                Time = DateTime.Now.ToString("hh:mm tt"),
+                Date = DateTime.Now.ToString("d"),
+                DisplayHorizontal = _displayHorizontal
+            };
         }
         public void UpdateTime()
         {
@@ -50,21 +52,19 @@ namespace MirrOS
         {
             ConfigFile defaultConfig = new ConfigFile(@"../config/config.json");
             await defaultConfig.initializeAsync();
-            Console.WriteLine(await defaultConfig.readConfigAsync());
             InitializeWindowSetttings(defaultConfig);
         }
         private async Task InitializeWindowSetttings(ConfigFile defaultConfig)
         {
-            var context = this.DataContext as MainWindowModel;
             var config = await defaultConfig.readConfigAsync();
 
             if (config.SCREEN_ORIENTATION == ConfigFile.orientation.horizontal)
             {
-                context.DisplayHorizontal = true;
+                _displayHorizontal = true;
             }
             else
             {
-                context.DisplayHorizontal = false;
+                _displayHorizontal = false;
             }
         }
     }
