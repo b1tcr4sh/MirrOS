@@ -19,14 +19,14 @@ namespace MirrOS.UIElements.Weather
         private string apiKey { get; set; }
         private ConfigFile.units units { get; set; }
 
-        private int _temp;
-        private int _feelsLike;
-        private int _pressure;
-        private int _humidity;
-        private int _tempMin;
-        private int _tempMax;
-        private string _main;
-        private string _desc;
+        public int temp { get; private set; }
+        public int feelsLike { get; private set; }
+        public int pressure { get; private set; }
+        public int humidity { get; private set; }
+        public int tempMin { get; private set; }
+        public int tempMax { get; private set; }
+        public string main { get; private set; }
+        public string desc { get; private set; }
 
 
         public WeatherElement()
@@ -110,14 +110,14 @@ namespace MirrOS.UIElements.Weather
             Console.WriteLine(errorMessage);
 #endif
 
-            _temp = response?.main.temp;
-            _feelsLike = response?.main.feels_like;
-            _pressure = response?.main.pressure;
-            _humidity = response?.main.humidity;
-            _tempMin = response?.main.temp_min;
-            _tempMax = response?.main.temp_max;
-            _main = response.weather[0].main;
-            _desc = response.weather[0].description;
+            temp = response?.main.temp;
+            feelsLike = response?.main.feels_like;
+            pressure = response?.main.pressure;
+            humidity = response?.main.humidity;
+            tempMin = response?.main.temp_min;
+            tempMax = response?.main.temp_max;
+            main = response.weather[0].main;
+            desc = response.weather[0].description;
         }
     }
 }
