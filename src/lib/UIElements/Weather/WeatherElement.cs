@@ -11,8 +11,9 @@ using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Diagnostics;
 using System.ComponentModel;
+using MirrOS.UIElements.Weather;
 
-namespace MirrOS.UIElements.Weather
+namespace MirrOS.UIElements
 {
     public class WeatherElement
     {

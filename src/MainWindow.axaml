@@ -9,12 +9,26 @@
 		>
 	
 	<Border Padding="60">
-		<StackPanel>
-			<TextBlock Classes="DigitalClock" HorizontalAlignment="Left" FontSize="60" Text="{Binding Time}"/>
-			<Line StartPoint="0,0" EndPoint="275,0" Stroke="White" StrokeThickness="2"/>
-			<TextBlock Classes="DigitalClock" HorizontalAlignment="Left" FontSize="30" Text="{Binding Date}"/>
-		</StackPanel>
-	</Border>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="100"/>
+				<ColumnDefinition Width="100"/>
+				<ColumnDefinition Width="100"/>
+			</Grid.ColumnDefinitions>
+
+			
+			<StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top">
+				<TextBlock Classes="DigitalClock" HorizontalAlignment="Center" FontWeight="Light" FontSize="60" Text="{Binding Time}"/>
+				<Line StartPoint="0,0" EndPoint="275,0" Stroke="White" StrokeThickness="2"/>
+				<TextBlock Classes="DigitalClock" HorizontalAlignment="Center" FontWeight="Thin" FontSize="30" Text="{Binding Date}"/>
+			</StackPanel>
+
+			<StackPanel Grid.Column="3" HorizontalAlignment="Rights" VerticalAlignment="Top">
+				<TextBlock Classes="WeatherElement" HorizontalAlignment="Right" VerticalAlignment="Top" Text="{Binding LocationWarning}"/>
+				<TextBlock Classes="WeatherElement" HorizontalAlignment="Right" VerticalAlignment="Top" Text="OpenWeather"/>
+			</StackPanel>
+		</Grid>
+	</Border>	
 
 
 	<Window.Styles>
@@ -22,9 +36,9 @@
 			<Setter Property="Foreground" Value="White"/>
 			<Setter Property="FontFamily" Value="Roboto"/>
 		</Style>
-		<Style Selector="StackPanel">
-			<Setter Property="VerticalAlignment" Value="Top"/>
-			<Setter Property="HorizontalAlignment" Value="Left"/>
+		<Style Selector="TextBlock.WeatherElement">
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="FontFamily" Value="Roboto"/>
 		</Style>
 	</Window.Styles>
 </Window>

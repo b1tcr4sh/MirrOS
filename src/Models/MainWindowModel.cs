@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using MirrOS.Config;
-using MirrOS.UIElements.Weather;
+using MirrOS.UIElements;
 using Avalonia.Threading;
 
 namespace MirrOS.Models
