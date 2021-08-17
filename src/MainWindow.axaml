@@ -11,8 +11,8 @@
 	<Border Padding="60">
 		<StackPanel>
 			<TextBlock Classes="DigitalClock" HorizontalAlignment="Left" FontSize="60" Text="{Binding Time}"/>
-			<Line StartPoint="0,0" EndPoint="250,0" Stroke="White" StrokeThickness="2"/>
-			<TextBlock Classes="DigitalClock" HorizontalAlignment="Center" FontSize="30" Text="{Binding Date}"/>
+			<Line StartPoint="0,0" EndPoint="275,0" Stroke="White" StrokeThickness="2"/>
+			<TextBlock Classes="DigitalClock" HorizontalAlignment="Left" FontSize="30" Text="{Binding Date}"/>
 		</StackPanel>
 	</Border>
 

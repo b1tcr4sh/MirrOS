@@ -10,6 +10,7 @@ using MirrOS.Config;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Diagnostics;
+using System.ComponentModel;
 
 namespace MirrOS.UIElements.Weather
 {
@@ -63,7 +64,7 @@ namespace MirrOS.UIElements.Weather
             ProcessResponse(response);
         }
 
-        async Task<WeatherResponseModel> RequestWeatherData()
+        async Task<OpenWeatherApiResponseModel> RequestWeatherData()
         {
             HttpClient client = new HttpClient();
             string url = $"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={apiKey}&units={units}";
@@ -71,14 +72,14 @@ namespace MirrOS.UIElements.Weather
 
             var responseTask = client.GetStreamAsync(url);
 
-            var deserializedResponse = await JsonSerializer.DeserializeAsync<WeatherResponseModel>(await responseTask) ?? new WeatherResponseModel
+            var deserializedResponse = await JsonSerializer.DeserializeAsync<OpenWeatherApiResponseModel>(await responseTask) ?? new OpenWeatherApiResponseModel
             {
                 cod = -1,                
             }; 
 
             return deserializedResponse; 
         }
-        void ProcessResponse(WeatherResponseModel response)
+        void ProcessResponse(OpenWeatherApiResponseModel response)
         {
             string errorMessage = String.Empty;
 
@@ -107,17 +108,25 @@ namespace MirrOS.UIElements.Weather
                     break;
             }
 #if DEBUG
-            Console.WriteLine(errorMessage);
+            Console.WriteLine(response.ToString());
+            Console.WriteLine("OpenWeatherAPI request returned with" + errorMessage);
+
+            foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(response))
+            {
+                string name = descriptor.Name;
+                object value = descriptor.GetValue(response);
+                Console.WriteLine($"{name}: {value}");
+            }
 #endif
 
-            temp = response?.main?.temp;
-            feelsLike = response?.main?.feels_like;
-            pressure = response?.main?.pressure;
-            humidity = response?.main?.humidity;
-            tempMin = response?.main?.temp_min;
-            tempMax = response?.main?.temp_max;
-            main = response?.weather[0]?.main;
-            desc = response?.weather[0]?.description;
+            temp = response.main.temp;
+            feelsLike = response.main.feels_like;
+            pressure = response.main.pressure;
+            humidity = response.main.humidity;
+            tempMin = response.main.temp_min;
+            tempMax = response.main.temp_max;
+            main = response.weather[0]?.main;
+            desc = response.weather[0]?.description;
         }
     }
 }

@@ -90,7 +90,7 @@ namespace MirrOS.Models
         {
             TwelveHourTime = config.TWELVEHOURTIME;
 
-            clockLayout = TwelveHourTime ? "hh:mm tt" : "HH:mm tt";
+            clockLayout = TwelveHourTime ? "h:mm tt" : "HH:mm tt";
         }
     }
 }
