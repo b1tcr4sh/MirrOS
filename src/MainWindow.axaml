@@ -5,13 +5,27 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="MirrOS.MainWindow"
 		WindowState="FullScreen"
+		Background="Black"
 		>
 	
 	<Border Padding="60">
-		<StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" >
-			<TextBlock HorizontalAlignment="Center" FontSize="40" Text="{Binding Time}"/>
-			<Line StartPoint="10,0" EndPoint="250,0" Stroke="Black" StrokeThickness="2"/>
-			<TextBlock HorizontalAlignment="Center" FontSize="30" Text="{Binding Date}"/>
+		<StackPanel>
+			<TextBlock Classes="DigitalClock" HorizontalAlignment="Left" FontSize="60" Text="{Binding Time}"/>
+			<Line StartPoint="0,0" EndPoint="250,0" Stroke="White" StrokeThickness="2"/>
+			<TextBlock Classes="DigitalClock" HorizontalAlignment="Center" FontSize="30" Text="{Binding Date}"/>
 		</StackPanel>
 	</Border>
+
+
+	<Window.Styles>
+		<Style Selector="TextBlock.DigitalClock">
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="FontFamily" Value="Roboto"/>
+		</Style>
+		<Style Selector="StackPanel">
+			<Setter Property="VerticalAlignment" Value="Top"/>
+			<Setter Property="HorizontalAlignment" Value="Left"/>
+		</Style>
+	</Window.Styles>
 </Window>
+

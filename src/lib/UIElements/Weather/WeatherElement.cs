@@ -110,14 +110,14 @@ namespace MirrOS.UIElements.Weather
             Console.WriteLine(errorMessage);
 #endif
 
-            temp = response?.main.temp;
-            feelsLike = response?.main.feels_like;
-            pressure = response?.main.pressure;
-            humidity = response?.main.humidity;
-            tempMin = response?.main.temp_min;
-            tempMax = response?.main.temp_max;
-            main = response.weather[0].main;
-            desc = response.weather[0].description;
+            temp = response?.main?.temp;
+            feelsLike = response?.main?.feels_like;
+            pressure = response?.main?.pressure;
+            humidity = response?.main?.humidity;
+            tempMin = response?.main?.temp_min;
+            tempMax = response?.main?.temp_max;
+            main = response?.weather[0]?.main;
+            desc = response?.weather[0]?.description;
         }
     }
 }
