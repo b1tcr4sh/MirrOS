@@ -19,6 +19,13 @@ namespace MirrOS.Models
         private string _date;
         private bool _twelveHourTime;
 
+        private int _temp;
+        private int _feelsLike;
+        private int _pressure;
+        private int _humidity;
+        private int _maxTemp;
+        private int _minTemp;
+
         public string Time
         {
             get => _time;
@@ -53,11 +60,22 @@ namespace MirrOS.Models
             }
         }
 
+
+        public string Temp {
+            get => $"Temperature | {_temp}";
+            set 
+            {
+                if (value != _temp) _temp = value;
+                OnPropertyChanged();
+            }
+        } 
+
         public MainWindowModel()
         {
             InitializeConfigFile();
             UpdateTime();
             var weatherElement = new WeatherElement();
+            BindWeatherElement(weatherElement);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -91,6 +109,9 @@ namespace MirrOS.Models
             TwelveHourTime = config.TWELVEHOURTIME;
 
             clockLayout = TwelveHourTime ? "h:mm tt" : "HH:mm tt";
+        }
+        private void BindWeatherElement(WeatherElement weatherElement) {
+            Temp = weatherElement.temp;   
         }
     }
 }
