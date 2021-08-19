@@ -44,7 +44,7 @@ namespace MirrOS.UIElements
                 UpdateWeather();
             };
         }
-        async Task Initialize()
+        public async Task Initialize()
         {
             await PullParamsFromConfig();
             await UpdateWeather();

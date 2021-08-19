@@ -19,12 +19,14 @@ namespace MirrOS.Models
         private string _date;
         private bool _twelveHourTime;
 
-        private int _temp;
-        private int _feelsLike;
-        private int _pressure;
-        private int _humidity;
-        private int _maxTemp;
-        private int _minTemp;
+        private string _temp;
+        private string _feelsLike;
+        private string _pressure;
+        private string _humidity;
+        private string _maxTemp;
+        private string _minTemp;
+        private string _description;
+        private string _main;
 
         public string Time
         {
@@ -69,13 +71,74 @@ namespace MirrOS.Models
                 OnPropertyChanged();
             }
         } 
-
+        public string FeelsLike 
+        {
+            get => $"Feels Like | {_feelsLike}";
+            set 
+            {
+                if (value != _feelsLike) _feelsLike = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Pressure 
+        {
+            get => $"Pressure | {_pressure}";
+            set 
+            {
+                if (value != _pressure) _pressure = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Humidity 
+        {
+            get => $"Humidity | {_humidity}%";
+            set 
+            {
+                if (value != _humidity) _humidity = value;
+                OnPropertyChanged();
+            }
+        }
+        public string MaxTemp 
+        {
+            get => $"Max Temperature | {_maxTemp}";
+            set 
+            {
+                if (value != _maxTemp) _maxTemp = value;
+                OnPropertyChanged();
+            }
+        }
+        public string MinTemp
+        {
+            get => $"Min Temperature | {_minTemp}";
+            set
+            {
+                if (value != _minTemp) _minTemp = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Description {
+            get => _description;
+            set
+            {
+                if (value != _description) _description = value;
+                OnPropertyChanged();
+            }
+        }
+        public string MainDesc
+        {
+            get => _main;
+            set
+            {
+                if (value != _main) _main = value;
+                OnPropertyChanged();
+            }
+        }
+        
         public MainWindowModel()
         {
             InitializeConfigFile();
             UpdateTime();
-            var weatherElement = new WeatherElement();
-            BindWeatherElement(weatherElement);
+            BindWeatherElement();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -110,8 +173,17 @@ namespace MirrOS.Models
 
             clockLayout = TwelveHourTime ? "h:mm tt" : "HH:mm tt";
         }
-        private void BindWeatherElement(WeatherElement weatherElement) {
-            Temp = weatherElement.temp;   
+        private async Task BindWeatherElement() {            
+            var weatherElement = new WeatherElement();
+
+            Temp = Convert.ToString(weatherElement.temp);
+            FeelsLike = Convert.ToString(weatherElement.feelsLike);
+            Pressure = Convert.ToString(weatherElement.pressure);
+            Humidity = Convert.ToString(weatherElement.humidity);
+            MaxTemp = Convert.ToString(weatherElement.tempMax);
+            MinTemp = Convert.ToString(weatherElement.tempMin);
+            Description = weatherElement.desc;
+            MainDesc = weatherElement.main;
         }
     }
 }

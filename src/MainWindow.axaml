@@ -28,12 +28,12 @@
 			<!--Weather Element-->
 			<TextBlock Classes="WeatherElement" FontSize="15" FontWeight="UltraLight" VerticalAlignment="Top" Text="{Binding LocationWarning}"/>
 			<TextBlock Classes="WeatherElement Title"  VerticalAlignment="Bottom" Text="OpenWeather"/>
-			<Line Grid.Column="4" Grid.Row="1" StrokeThickness="2" Stroke="White" StartPoint="350,0" EndPoint="600,0"/>
+			<Line Grid.Column="4" Grid.Row="1" StrokeThickness="2" Stroke="White" StartPoint="250,0" EndPoint="600,0"/>
 			
 			<Border Grid.Row="1" Grid.Column="4" Padding="10">
 				<StackPanel HorizontalAlignment="Right">
 					<TextBlock Classes="WeatherElement WeatherParam" Text="{Binding Temp}"/>
-					<TextBlock Classes="WeatherElement WeatherParam" Text="{Binding FeelsLike"/>
+					<TextBlock Classes="WeatherElement WeatherParam" Text="{Binding FeelsLike}"/>
 					<TextBlock Classes="WeatherElement WeatherParam" Text="{Binding Pressure}"/>
 					<TextBlock Classes="WeatherElement WeatherParam" Text="{Binding Humidity}"/>
 					<TextBlock Classes="WeatherElement WeatherParam" Text="{Binding MaxTemp}"/>
@@ -43,8 +43,8 @@
 			
 			
 			<!--R/News Element-->
-			<TextBlock Classes="News Title" Grid.Row="0" VerticalAlignment="Bottom" Text="R/News"/>
-			<Line Grid.Column="0" Grid.Row="1" StrokeThickness="2" Stroke="White" StartPoint="0,0" EndPoint="250,0"/>
+			<TextBlock Classes="News Title" Grid.Row="0" VerticalAlignment="Bottom" Text="R/News Feed"/>
+			<Line Grid.Column="0" Grid.Row="1" StrokeThickness="2" Stroke="White" StartPoint="0,0" EndPoint="350,0"/>
 		</Grid>
 	</Border>
 
@@ -70,7 +70,6 @@
 		</Style>
 		<Style Selector="TextBlock.WeatherParam">
 			<Setter Property="FontSize" Value="30"/>
-			<Setter Property="VerticalAlignment" Value="Top"/>
 			<Setter Property="FontWeight" Value="UltraLight"/>
 		</Style>
 		<Style Selector="TextBlock.Title">
