@@ -24,16 +24,32 @@
 			<TextBlock Grid.Row="0" Grid.RowSpan="1" Classes="DigitalClock" VerticalAlignment="Bottom" FontWeight="Thin" FontSize="30" Text="{Binding Date}"/>
 			<TextBlock Grid.Row="1" Classes="DigitalClock" VerticalAlignment="Top" FontWeight="Light" FontSize="60" Text="{Binding Time}"/>
 
+			
 			<!--Weather Element-->
 			<TextBlock Classes="WeatherElement" FontSize="15" FontWeight="UltraLight" VerticalAlignment="Top" Text="{Binding LocationWarning}"/>
 			<TextBlock Classes="WeatherElement Title"  VerticalAlignment="Bottom" Text="OpenWeather"/>
 			<Line Grid.Column="4" Grid.Row="1" StrokeThickness="2" Stroke="White" StartPoint="350,0" EndPoint="600,0"/>
-				
+			
+			<Border Grid.Row="1" Grid.Column="4" Padding="10">
+				<StackPanel HorizontalAlignment="Right">
+					<TextBlock Classes="WeatherElement WeatherParam" Text="{Binding Temp}"/>
+					<TextBlock Classes="WeatherElement WeatherParam" Text="{Binding FeelsLike"/>
+					<TextBlock Classes="WeatherElement WeatherParam" Text="{Binding Pressure}"/>
+					<TextBlock Classes="WeatherElement WeatherParam" Text="{Binding Humidity}"/>
+					<TextBlock Classes="WeatherElement WeatherParam" Text="{Binding MaxTemp}"/>
+					<TextBlock Classes="WeatherElement WeatherParam" Text="{Binding MinTemp}"/>
+				</StackPanel>
+			</Border>
+			
+			
 			<!--R/News Element-->
 			<TextBlock Classes="News Title" Grid.Row="0" VerticalAlignment="Bottom" Text="R/News"/>
 			<Line Grid.Column="0" Grid.Row="1" StrokeThickness="2" Stroke="White" StartPoint="0,0" EndPoint="250,0"/>
 		</Grid>
 	</Border>
+
+
+
 
 	<Window.Styles>
 		<Style Selector="TextBlock">
@@ -52,11 +68,15 @@
 			<Setter Property="Grid.Column" Value="0"/>
 			<Setter Property="HorizontalAlignment" Value="Left"/>
 		</Style>
+		<Style Selector="TextBlock.WeatherParam">
+			<Setter Property="FontSize" Value="30"/>
+			<Setter Property="VerticalAlignment" Value="Top"/>
+			<Setter Property="FontWeight" Value="UltraLight"/>
+		</Style>
 		<Style Selector="TextBlock.Title">
-			<Setter Property="FontSize" Value="40"/>
+			<Setter Property="FontSize" Value="50"/>
 			<Setter Property="FontWeight" Value="Light"/>
 			<Setter Property="Grid.Row" Value="0"/>
 		</Style>
 	</Window.Styles>
 </Window>
-
