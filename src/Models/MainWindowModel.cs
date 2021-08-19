@@ -18,6 +18,7 @@ namespace MirrOS.Models
         private string _time;
         private string _date;
         private bool _twelveHourTime;
+        private string _location;
 
         private string _temp;
         private string _feelsLike;
@@ -133,6 +134,15 @@ namespace MirrOS.Models
                 OnPropertyChanged();
             }
         }
+        public string LocationWarning 
+        {
+            get => $"Results for {_location}*";
+            set
+            {
+                if (value != _location) _location = value;
+                OnPropertyChanged();
+            }
+        }
         
         public MainWindowModel()
         {
@@ -164,6 +174,8 @@ namespace MirrOS.Models
             ConfigFile defaultConfig = new ConfigFile(@"../config/config.json");
             await defaultConfig.initializeAsync();
             ConfigFileDataModel config = await defaultConfig.readConfigAsync();
+
+            LocationWarning = config.LOCATION;
 
             InitializeClock(config);
         }
