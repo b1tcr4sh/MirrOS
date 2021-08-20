@@ -146,9 +146,14 @@ namespace MirrOS.Models
         
         public MainWindowModel()
         {
-            InitializeConfigFile();
+            Init();
+        }
+
+        private async Task Init() 
+        {
+            await InitializeConfigFile();
+            await BindWeatherElement();
             UpdateTime();
-            BindWeatherElement();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -176,7 +181,7 @@ namespace MirrOS.Models
             ConfigFileDataModel config = await defaultConfig.readConfigAsync();
 
             _location = config.LOCATION;
-            Conosle.WriteLine(config.LOCATION);
+            Console.WriteLine(config.LOCATION);
 
             InitializeClock(config);
         }
