@@ -175,7 +175,8 @@ namespace MirrOS.Models
             await defaultConfig.initializeAsync();
             ConfigFileDataModel config = await defaultConfig.readConfigAsync();
 
-            LocationWarning = config.LOCATION;
+            _location = config.LOCATION;
+            Conosle.WriteLine(config.LOCATION);
 
             InitializeClock(config);
         }
