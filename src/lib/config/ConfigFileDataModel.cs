@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MirrOS.Config
 {
-    class ConfigFileDataModel
+    public class ConfigFileDataModel
     {
         public bool GESTURE_CONTROLS_ENABLED { get; set; }
         public bool TWELVEHOURTIME { get; set; }

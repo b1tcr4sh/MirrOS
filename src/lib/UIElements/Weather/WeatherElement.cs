@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Threading;
 using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Net;
 using MirrOS.Config;
 using System.Runtime.InteropServices;
 using System.Text.Json;
@@ -30,34 +30,19 @@ namespace MirrOS.UIElements
         public string main { get; private set; }
         public string desc { get; private set; }
 
-
-        public WeatherElement()
+        public async Task Initialize(ConfigFileDataModel configObject)
         {
-            Initialize();
+            location = configObject.LOCATION;
+            apiKey = configObject.OPENWEATHERAPI_KEY;
+            units = configObject.UNITS;
+            await UpdateWeather();
 
             DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Background);
 
             timer.Interval = TimeSpan.FromHours(1);
             timer.IsEnabled = true;
-            timer.Tick += (s, e) =>
-            {
-                UpdateWeather();
-            };
+            timer.Tick += (s, e) => UpdateWeather();
         }
-        public async Task Initialize()
-        {
-            await PullParamsFromConfig();
-            await UpdateWeather();
-        }
-        async Task PullParamsFromConfig()
-        {
-            ConfigFile config = new ConfigFile(@"../config/config.json");
-            var configObject = await config.readConfigAsync();
-            location = configObject.LOCATION;
-            apiKey = configObject.OPENWEATHERAPI_KEY;
-            units = configObject.UNITS;
-        }
-
         public async Task UpdateWeather()
         {
             var response = await RequestWeatherData();
@@ -65,29 +50,31 @@ namespace MirrOS.UIElements
             ProcessResponse(response);
         }
 
-        async Task<OpenWeatherApiResponseModel> RequestWeatherData()
+        async Task<OpenWeatherApiResponseModelDynamic> RequestWeatherData()
         {
             HttpClient client = new HttpClient();
             string url = $"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={apiKey}&units={units}";
-            Console.WriteLine(url);
+            Console.WriteLine("Beginning HTTP request to " + url);
 
             var responseTask = client.GetStreamAsync(url);
 
-            var deserializedResponse = await JsonSerializer.DeserializeAsync<OpenWeatherApiResponseModel>(await responseTask) ?? new OpenWeatherApiResponseModel
+            var deserializedResponse = await JsonSerializer.DeserializeAsync<OpenWeatherApiResponseModelDynamic>(await responseTask) ?? new OpenWeatherApiResponseModelDynamic
             {
-                cod = -1,                
+                cod = -1                
             }; 
+
+            if (deserializedResponse == null) Console.WriteLine("Response deserialization returned null");
 
             return deserializedResponse; 
         }
-        void ProcessResponse(OpenWeatherApiResponseModel response)
+        void ProcessResponse(OpenWeatherApiResponseModelDynamic response)
         {
             string errorMessage = String.Empty;
 
             switch (response.cod)
             {
                 case 200:
-                    errorMessage = "200 Okay, request resolved successfully";
+                    errorMessage = "200 Ok";
                     break;
                 case -1:
                     errorMessage = "An error occurred: Unable to resolve response from API host.";
@@ -109,9 +96,6 @@ namespace MirrOS.UIElements
                     break;
             }
 #if DEBUG
-            Console.WriteLine(response.ToString());
-            Console.WriteLine("OpenWeatherAPI request returned with" + errorMessage);
-
             foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(response))
             {
                 string name = descriptor.Name;
@@ -120,14 +104,14 @@ namespace MirrOS.UIElements
             }
 #endif
 
-            temp = response.main.temp;
-            feelsLike = response.main.feels_like;
-            pressure = response.main.pressure;
-            humidity = response.main.humidity;
-            tempMin = response.main.temp_min;
-            tempMax = response.main.temp_max;
-            main = response.weather[0]?.main;
-            desc = response.weather[0]?.description;
+            temp = response?.main?.temp;
+            feelsLike = response?.main?.feels_like;
+            pressure = response?.main?.pressure;
+            humidity = response?.main?.humidity;
+            tempMin = response?.main?.temp_min;
+            tempMax = response?.main?.temp_max;
+            main = response?.weather[0]?.main;
+            desc = response?.weather[0]?.description;
         }
     }
 }

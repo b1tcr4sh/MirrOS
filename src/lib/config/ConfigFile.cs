@@ -9,7 +9,7 @@ using System.Text.Json.Serialization;
 
 namespace MirrOS.Config
 {
-    class ConfigFile
+    public class ConfigFile
     {
         public enum units
         {

@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace MirrOS.UIElements.Weather
 {
+    class OpenWeatherApiResponseModelDynamic
+    {
+        public dynamic coord { get; set; }
+        public dynamic[] weather { get; set; }
+        public dynamic main { get; set; }
+        public int cod { get; set; }
+    }
     class OpenWeatherApiResponseModel
     {
         public Coord coord { get; set; }

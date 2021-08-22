@@ -146,13 +146,14 @@ namespace MirrOS.Models
         
         public MainWindowModel()
         {
-            Init();
+            InitAsync();
         }
 
-        private async Task Init() 
+        private async Task InitAsync() 
         {
-            await InitializeConfigFile();
-            await BindWeatherElement();
+            ConfigFileDataModel config = await InitializeConfigFile();
+            InitializeClock(config);
+            await BindWeatherElement(config);
             UpdateTime();
         }
 
@@ -174,16 +175,15 @@ namespace MirrOS.Models
                 Date = DateTime.Now.ToString("d");
             };
         }
-        private async Task InitializeConfigFile()
+        private async Task<ConfigFileDataModel> InitializeConfigFile()
         {
             ConfigFile defaultConfig = new ConfigFile(@"../config/config.json");
             await defaultConfig.initializeAsync();
             ConfigFileDataModel config = await defaultConfig.readConfigAsync();
 
-            _location = config.LOCATION;
-            Console.WriteLine(config.LOCATION);
+            LocationWarning = config.LOCATION;
 
-            InitializeClock(config);
+            return config;
         }
         private void InitializeClock(ConfigFileDataModel config)
         {
@@ -191,8 +191,9 @@ namespace MirrOS.Models
 
             clockLayout = TwelveHourTime ? "h:mm tt" : "HH:mm tt";
         }
-        private async Task BindWeatherElement() {            
+        private async Task BindWeatherElement(ConfigFileDataModel config) {            
             var weatherElement = new WeatherElement();
+            await weatherElement.Initialize(config);
 
             Temp = Convert.ToString(weatherElement.temp);
             FeelsLike = Convert.ToString(weatherElement.feelsLike);
