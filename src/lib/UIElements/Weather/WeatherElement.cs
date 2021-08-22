@@ -9,6 +9,7 @@ using System.Net;
 using MirrOS.Config;
 using System.Runtime.InteropServices;
 using System.Text.Json;
+using System.Xml.Serialization;
 using System.Diagnostics;
 using System.ComponentModel;
 using MirrOS.UIElements.Weather;
@@ -57,6 +58,7 @@ namespace MirrOS.UIElements
             Console.WriteLine("Beginning HTTP request to " + url);
 
             var responseTask = client.GetStreamAsync(url);
+
 
             var deserializedResponse = await JsonSerializer.DeserializeAsync<OpenWeatherApiResponseModelDynamic>(await responseTask) ?? new OpenWeatherApiResponseModelDynamic
             {
