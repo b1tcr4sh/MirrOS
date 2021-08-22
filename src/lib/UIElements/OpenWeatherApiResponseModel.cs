@@ -9,7 +9,7 @@ namespace MirrOS.UIElements.Weather
     class OpenWeatherApiResponseModelDynamic
     {
         public dynamic coord { get; set; }
-        public dynamic[] weather { get; set; }
+        public List<dynamic> weather { get; set; }
         public dynamic main { get; set; }
         public int cod { get; set; }
     }

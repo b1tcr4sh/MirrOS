@@ -103,8 +103,10 @@ namespace MirrOS.UIElements
                 Console.WriteLine($"{name}: {value}");
             }
 #endif
-
+            Console.WriteLine(response.main);
             temp = response?.main?.temp;
+            Console.WriteLine(temp);
+            /*
             feelsLike = response?.main?.feels_like;
             pressure = response?.main?.pressure;
             humidity = response?.main?.humidity;
@@ -112,6 +114,7 @@ namespace MirrOS.UIElements
             tempMax = response?.main?.temp_max;
             main = response?.weather[0]?.main;
             desc = response?.weather[0]?.description;
+            */
         }
     }
 }
