@@ -51,25 +51,35 @@ namespace MirrOS.UIElements
             ProcessResponse(response);
         }
 
-        async Task<OpenWeatherApiResponseModelDynamic> RequestWeatherData()
+        async Task<OpenWeatherResponseModelXML> RequestWeatherData()
         {
             HttpClient client = new HttpClient();
             string url = $"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={apiKey}&units={units}";
             Console.WriteLine("Beginning HTTP request to " + url);
 
-            var responseTask = client.GetStreamAsync(url);
+            var responseStream = client.GetStreamAsync(url);
 
+            XmlSerializer serializer = new XmlSerializer(typeof(OpenWeatherResponseModelXML));
 
+            var deserializedResponse = serializer.Deserialize(await responseStream) ?? new OpenWeatherResponseModelXML 
+            {
+                cod = -1
+            }; 
+
+            Console.WriteLine(deserializedResponse);
+
+/*
             var deserializedResponse = await JsonSerializer.DeserializeAsync<OpenWeatherApiResponseModelDynamic>(await responseTask) ?? new OpenWeatherApiResponseModelDynamic
             {
                 cod = -1                
-            }; 
+            };
+*/
 
             if (deserializedResponse == null) Console.WriteLine("Response deserialization returned null");
 
-            return deserializedResponse; 
+            return null; 
         }
-        void ProcessResponse(OpenWeatherApiResponseModelDynamic response)
+        void ProcessResponse(OpenWeatherResponseModelXML response)
         {
             string errorMessage = String.Empty;
 

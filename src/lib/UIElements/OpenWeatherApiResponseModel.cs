@@ -3,9 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+
 
 namespace MirrOS.UIElements.Weather
 {
+    class OpenWeatherResponseModelXML 
+    {
+        [XmlElement(Namespace = "OpenWeather")]
+        public dynamic coord;
+        [XmlElement(Namespace = "OpenWeather")]
+        public List<dynamic> weather;
+        [XmlElement(Namespace = "OpenWeather")]
+        public dynamic main;
+        [XmlElement(Namespace = "OpenWeather")]
+        public int cod;
+    }
+
     class OpenWeatherApiResponseModelDynamic
     {
         public dynamic coord { get; set; }
